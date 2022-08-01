@@ -1,0 +1,98 @@
+﻿<Window x:Class="homework_12.WorkSpace"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:homework_12"
+        mc:Ignorable="d"
+        Title="Рабочее место " Height="900" Width="900"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:col="clr-namespace:System.Collections;assembly=mscorlib"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+         TextElement.FontWeight="Regular"
+         TextElement.FontSize="16"
+         TextOptions.TextFormattingMode="Ideal"
+         TextOptions.TextRenderingMode="Auto"
+         Background="{DynamicResource MaterialDesignPaper}" MinHeight="900" MinWidth="1024">
+    <Window.Resources>
+        <local:BoolConverter x:Key="BoolConverter"></local:BoolConverter>
+        <Style x:Key="HeaderStyle" TargetType="{x:Type GridViewColumnHeader}">
+            <Setter Property="FontFamily" Value="{DynamicResource MaterialDesignFont}"/>
+            <Setter Property="Height" Value="35"/>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="90"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Text="Бета-Банк" Grid.ColumnSpan="5" FontSize="48" FontWeight="Bold" FontFamily="Constantia" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF335386" Margin="0,20,0,20"/>
+        <GridSplitter Grid.Column="1" Grid.Row="1" Background="DarkGoldenrod" HorizontalAlignment="Stretch"/>
+        <GridSplitter Grid.Column="3" Grid.Row="1" Background="DarkGoldenrod" HorizontalAlignment="Stretch"/>
+        <StackPanel Grid.Column="0" Grid.Row="1">
+            <Expander Header="Для тестов">
+                <StackPanel>
+                <Button Margin="10" HorizontalAlignment="Center" VerticalAlignment="Top" Click="BaseCreateButton" Height="80" Cursor="Hand">
+                        <StackPanel HorizontalAlignment="Center" Grid.Column="0">
+                            <TextBlock Text="Создать базу данных на" HorizontalAlignment="Center"></TextBlock>
+                            <TextBox x:Name="dataBaseCountTextBox" HorizontalAlignment="Center" Background="#FF479473" Padding="5" Margin="0,5,0,0" CaretBrush="Black" BorderBrush="#00000000" SelectionBrush="#00B39DDB" Cursor="Arrow">15</TextBox>
+                            <TextBlock Text="человек" HorizontalAlignment="Center"/>           
+                        </StackPanel>
+                    </Button>
+                    <Button Margin="10" Padding="10" HorizontalAlignment="Center" VerticalAlignment="Top" Content="Удалить базу данных" Click="DeleteBaseButton" Height="50"/>
+                </StackPanel>            
+            </Expander>
+            <Expander Header="Добавить клиента" x:Name="ExpanderAddNewClient">
+                <StackPanel Background="AliceBlue">
+                    <TextBlock Text="Клиент" HorizontalAlignment="Center" FontFamily="Arial Black" FontSize="16" />
+                    <TextBox x:Name="TextBoxSurname" materialDesign:HintAssist.Hint="Фамилия" Padding="10,0,0,0" Cursor="Arrow" Margin="0,5,0,0"/>
+                    <TextBox x:Name="TextBoxName" materialDesign:HintAssist.Hint="Имя" Padding="10,0,0,0" Cursor="Arrow" Margin="0,5,0,0"/>
+                    <TextBox x:Name="TextBoxPatronymic" materialDesign:HintAssist.Hint="Отчество" Padding="10,0,0,0" Cursor="Arrow" Margin="0,5,0,0"/>
+                    <TextBox x:Name="TextBoxPassportNumber" materialDesign:HintAssist.Hint="Паспортные данные" Padding="10,0,0,0" Cursor="Arrow" Margin="0,5,0,0"/>
+                    <TextBox x:Name="TextBoxPhoneNumber" materialDesign:HintAssist.Hint="Номер телефона" Padding="10,0,0,0" Cursor="Arrow" Margin="0,5,0,0"/>
+                    <Button Content="Добавить" Click="ButtonAddToList" Margin="0,10,0,0"/>
+                </StackPanel>
+            </Expander>
+            <StackPanel x:Name="SPOneClient" Background="Cornsilk" Visibility="Hidden" Margin="0,20,0,0">
+                <TextBox x:Name="TextBoxId" IsReadOnly="True" Text="{Binding ElementName=LVclientBase, Path=SelectedIndex}" Padding="10,0,0,0" Cursor="Arrow" Margin="0,5,0,0" Visibility="Hidden"/>
+                <TextBox x:Name="TextBoxSurnameChange" IsReadOnly="True" Text="{Binding ElementName=LVclientBase, Path=SelectedItem.surname}" Padding="10,0,0,0" Cursor="Arrow" Margin="0,5,0,0"/>
+                <TextBox x:Name="TextBoxNameChange" IsReadOnly="True" Text="{Binding ElementName=LVclientBase, Path=SelectedItem.name}" Padding="10,0,0,0" Cursor="Arrow" Margin="0,5,0,0"/>
+                <TextBox x:Name="TextBoxPatronymicChange" IsReadOnly="True" Text="{Binding ElementName=LVclientBase, Path=SelectedItem.patronymic}" Padding="10,0,0,0" Cursor="Arrow" Margin="0,5,0,0"/>
+                <TextBox x:Name="TextBoxPassportNumberChange" IsReadOnly="True" Text="{Binding ElementName=LVclientBase, Path=SelectedItem.passportNumber}" Padding="10,0,0,0" Cursor="Arrow" Margin="0,5,0,0"/>
+                <TextBox x:Name="TextBoxPhoneNumberChange" Text="{Binding ElementName=LVclientBase, Path=SelectedItem.phoneNumber}" Padding="10,0,0,0" Cursor="Arrow" Margin="0,5,0,0"/>
+            </StackPanel>
+            <Grid Margin="7" x:Name="ButtonsForOneClient" Visibility="Hidden">
+                <Button Content="Сохранить" HorizontalAlignment="Left" Width="100" Click="Save" Cursor="Hand"/>
+                <Button Content="Удалить" HorizontalAlignment="Right" Width="100" Click="Delete" />
+            </Grid>
+            <TextBlock Text="Изменения" Padding="10,0,10,0" Cursor="Arrow" Margin="0,5,0,0" HorizontalAlignment="Center" FontFamily="Arial" FontSize="14" FontWeight="Bold" />
+            <TextBlock x:Name="TextBoxWhoChanged" Text="{Binding ElementName=LVclientBase, Path=SelectedItem.whoChanged}" Padding="10,0,10,0" Cursor="Arrow" Margin="0,5,0,0" />
+            <TextBlock x:Name="TextBoxDateAndTimeChange" Text="{Binding ElementName=LVclientBase, Path=SelectedItem.dateAndTimeChange}" Padding="10,0,10,0" Cursor="Arrow" Margin="0,5,0,0"/>
+        </StackPanel>
+        <Button Grid.Column="0" Grid.Row="1" Content="Сменить пользователя" Cursor="Hand" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,20" Height="42" Click="UserChange"/>
+        <ListView x:Name="LVclientBase" Grid.Column="2" Grid.Row="1" Margin="15" FontFamily="Segoe Print" MouseDoubleClick="OpenVision" GridViewColumnHeader.Click="GridViewColumnHeaderClick">
+            <ListView.View >
+                <GridView x:Name="LVclientBaseee" AllowsColumnReorder="False">
+                    <GridViewColumn Header="Фамилия" DisplayMemberBinding="{Binding surname}"  HeaderContainerStyle="{StaticResource HeaderStyle}"/>
+                    <GridViewColumn Header="Имя" DisplayMemberBinding="{Binding name}" HeaderContainerStyle="{StaticResource HeaderStyle}"/>
+                    <GridViewColumn Header="Отчество" DisplayMemberBinding="{Binding patronymic}" HeaderContainerStyle="{StaticResource HeaderStyle}"/>
+                    <GridViewColumn Header="Паспортные данные" DisplayMemberBinding="{Binding passportNumber}" HeaderContainerStyle="{StaticResource HeaderStyle}"/>
+                    <GridViewColumn Header="Номер телефона" DisplayMemberBinding="{Binding phoneNumber}" HeaderContainerStyle="{StaticResource HeaderStyle}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <DataGrid Grid.Column="4" Grid.Row="1" AutoGenerateColumns="False" ItemsSource="{Binding ElementName=LVclientBase, Path=SelectedItem.accounts}">            
+            <DataGrid.Columns>
+                <DataGridTextColumn IsReadOnly="True" Header="Тип счета" Binding="{Binding Path=isDeposit, Converter={StaticResource BoolConverter}}"/>
+                <DataGridTextColumn IsReadOnly="True" Header="Номер счета" Binding="{Binding Path=accountNumber}"/>
+                <DataGridTextColumn IsReadOnly="True" Header="Баланс" Binding="{Binding Path=balance, StringFormat={}{0} руб.}"/>                
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>

@@ -27,6 +27,8 @@ namespace homework_12
         {
 
             InitializeComponent();
+
+            WindowState = WindowState.Maximized;
             Title = user;
             // Я из формы авторизации передаю сюда кто работает в переменную юзер. 
             // У меня возникла проблемма, ее нужно было использовать внутри кнопок я не понимал как ее туда передать

@@ -38,15 +38,15 @@
         <StackPanel Grid.Column="0" Grid.Row="1">
             <Expander Header="Для тестов">
                 <StackPanel>
-                <Button Margin="10" HorizontalAlignment="Center" VerticalAlignment="Top" Click="BaseCreateButton" Height="80" Cursor="Hand">
+                    <Button Margin="10" HorizontalAlignment="Center" VerticalAlignment="Top" Click="BaseCreateButton" Height="80" Cursor="Hand">
                         <StackPanel HorizontalAlignment="Center" Grid.Column="0">
                             <TextBlock Text="Создать базу данных на" HorizontalAlignment="Center"></TextBlock>
                             <TextBox x:Name="dataBaseCountTextBox" HorizontalAlignment="Center" Background="#FF479473" Padding="5" Margin="0,5,0,0" CaretBrush="Black" BorderBrush="#00000000" SelectionBrush="#00B39DDB" Cursor="Arrow">15</TextBox>
-                            <TextBlock Text="человек" HorizontalAlignment="Center"/>           
+                            <TextBlock Text="человек" HorizontalAlignment="Center"/>
                         </StackPanel>
                     </Button>
                     <Button Margin="10" Padding="10" HorizontalAlignment="Center" VerticalAlignment="Top" Content="Удалить базу данных" Click="DeleteBaseButton" Height="50"/>
-                </StackPanel>            
+                </StackPanel>
             </Expander>
             <Expander Header="Добавить клиента" x:Name="ExpanderAddNewClient">
                 <StackPanel Background="AliceBlue">
@@ -87,12 +87,37 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <DataGrid Grid.Column="4" Grid.Row="1" AutoGenerateColumns="False" ItemsSource="{Binding ElementName=LVclientBase, Path=SelectedItem.accounts}">            
-            <DataGrid.Columns>
-                <DataGridTextColumn IsReadOnly="True" Header="Тип счета" Binding="{Binding Path=isDeposit, Converter={StaticResource BoolConverter}}"/>
-                <DataGridTextColumn IsReadOnly="True" Header="Номер счета" Binding="{Binding Path=accountNumber}"/>
-                <DataGridTextColumn IsReadOnly="True" Header="Баланс" Binding="{Binding Path=balance, StringFormat={}{0} руб.}"/>                
-            </DataGrid.Columns>
-        </DataGrid>
+        <StackPanel Grid.Column="4" Grid.Row="1">
+            <DataGrid AutoGenerateColumns="False"  ItemsSource="{Binding ElementName=LVclientBase, Path=SelectedItem.accounts}" IsTextSearchEnabled="True" CanUserAddRows="False">
+                <DataGrid.Columns>
+                    <materialDesign:DataGridTextColumn IsReadOnly="True" Header="Тип счета" Binding="{Binding Path=isDeposit, Converter={StaticResource BoolConverter}}"/>
+                    <materialDesign:DataGridTextColumn IsReadOnly="True" Header="Номер счета" Binding="{Binding Path=accountNumber}"/>
+                    <materialDesign:DataGridTextColumn IsReadOnly="True" Header="Баланс" Binding="{Binding Path=balance, StringFormat={}{0} руб.}"/>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Перевод" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Удалить" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+            <Expander Header="Добавить счёт" HorizontalContentAlignment="Stretch" HorizontalAlignment="Left" Margin="0,20,0,0" Width="250">
+                <StackPanel>
+                    <ComboBox Padding="25,10,30,10" materialDesign:HintAssist.Hint="Тип счета">
+                        <ComboBoxItem Content="Депозитный"/>
+                        <ComboBoxItem Content="Не депозитный"/>
+                    </ComboBox>
+                    <Button Content="Добавить" Margin="0,20,0,0"/>
+                </StackPanel>
+            </Expander>
+        </StackPanel>
     </Grid>
 </Window>

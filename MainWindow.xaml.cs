@@ -24,6 +24,7 @@ namespace homework_12
         public MainWindow()
         {
             InitializeComponent();
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
 
         public void Start(object sender, RoutedEventArgs e)

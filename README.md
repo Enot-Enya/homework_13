@@ -1,14 +1,15 @@
 # homework_13
-Типо банковская система
 
-Консультант пароль 123
+Banking system 
 
-Менеджер пароль 321
+"Консультант" password 123
 
-При входе слева сверху будет раскрывающееся меню "Для тестов". Оно позволит создать или удалить базу данных для удобства
+"Менеджер" password 321
 
-Сортировка происходит при нажатии по хедеру
+When you log in, there will be a drop-down menu "Для тестов" on the top left. It will allow you to create or delete a database for your convenience.
 
-Редактировать или удалить запись можно при двойном клике.
+Sorting occurs when you click on the header
 
-Изменять базу данных может только менеджер. Снизу есть кнопка смены пользователя
+You can edit or delete an entry by double-clicking.
+
+Only the manager can add. Below there is a button to change the user

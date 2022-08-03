@@ -120,6 +120,7 @@
                 </StackPanel>
             </Expander>
             <StackPanel x:Name="TransferStackPanel" Visibility="Hidden">
+
                 <ComboBox x:Name="TransferNameCombobox" materialDesign:HintAssist.Hint="Кому отправить">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
@@ -155,7 +156,7 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
 
-                <TextBox  materialDesign:HintAssist.Hint="Сумма"/>
+                <TextBox x:Name="TBSumm" materialDesign:HintAssist.Hint="Сумма"/>
                 <Button Content="Отправить" Click="TransferButtonGoClick"/>
             </StackPanel>
         </StackPanel>

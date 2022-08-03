@@ -339,7 +339,22 @@ namespace homework_12
         /// </summary>
         private void TransferButtonGoClick(object sender, RoutedEventArgs e)
         {
+            List<Client> allClients = Client.JsonToList("Менеджер");
+            double summ = double.Parse(TBSumm.Text);
+            int idOut = int.Parse(TextBoxId.Text);
+            int TranferTypeAccountOut = AccountColums.SelectedIndex;
+            allClients[idOut].accounts[TranferTypeAccountOut].balance -= summ;
+
+            int idIn = TransferNameCombobox.SelectedIndex;
+            int TranferTypeAccountIn = TranserAccountType.SelectedIndex;
+            allClients[idIn].accounts[TranferTypeAccountIn].balance += summ;
+
+            SaveToJson(allClients);
+            Refresh();
+
             TransferStackPanel.Visibility = Visibility.Hidden;
+
+
         }
     }
 }

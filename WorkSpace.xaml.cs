@@ -22,12 +22,10 @@ namespace homework_12
     /// </summary>
     public partial class WorkSpace : Window
     {
-
         public WorkSpace(string user)
         {
 
             InitializeComponent();
-
             WindowState = WindowState.Maximized;
             Title = user;
             // Я из формы авторизации передаю сюда кто работает в переменную юзер. 
@@ -38,7 +36,8 @@ namespace homework_12
             if (Title == "Менеджер")
             {
                 ExpanderAddNewClient.Visibility = Visibility.Visible;
-            }else ExpanderAddNewClient.Visibility = Visibility.Hidden;
+            }
+            else ExpanderAddNewClient.Visibility = Visibility.Hidden;
         }
 
 
@@ -253,7 +252,7 @@ namespace homework_12
                 case "Отчество": allClients.Sort(new Client.SortByPatronymic()); break;
                 case "данные": allClients.Sort(new Client.SortByPassportNumber()); break;
                 case "телефона": allClients.Sort(new Client.SortByPhoneNumber()); break;
-                default: MessageBox.Show("Ошибка"); break; 
+                default: MessageBox.Show("Ошибка"); break;
             }
             SaveToJson(allClients);
             Refresh();
@@ -268,5 +267,79 @@ namespace homework_12
             File.WriteAllText("Clientlist.json", json);
         }
 
+        /// <summary>
+        /// Удаляет счет клиента
+        /// </summary>
+        private void DeleteAccountButtonClick(object sender, RoutedEventArgs e)
+        {
+            List<Client> allClients = Client.JsonToList("Менеджер");
+            int id = int.Parse(TextBoxId.Text);
+            int accountId = AccountColums.SelectedIndex;
+
+            allClients[id].accounts.Remove(allClients[id].accounts[accountId]);
+            SaveToJson(allClients);
+            Refresh();
+        }
+        /// <summary>
+        /// Открывает панель перевода Денежных средств
+        /// </summary>
+        private void TransferAccountButtonClick(object sender, RoutedEventArgs e)
+        {
+            List<Client> allClients = Client.JsonToList("Менеджер");
+            TransferStackPanel.Visibility = Visibility.Visible;
+
+            TransferNameCombobox.ItemsSource = allClients;
+        }
+        /// <summary>
+        /// Добавляет счет клиенту
+        /// </summary>
+        private void AddButtonClick(object sender, RoutedEventArgs e)
+        {
+            if (String.IsNullOrEmpty(ComboBoxAccountType.Text))
+            {
+                MessageBox.Show("Выберите тип счета");
+            }
+            else
+            {
+                if (int.Parse(TextBoxId.Text) < 0)
+                {
+                    MessageBox.Show("Выберите клиента");
+                }
+                else
+                {
+                    List<Client> allClients = Client.JsonToList("Менеджер");
+                    int id = int.Parse(TextBoxId.Text);
+                    if (ComboBoxAccountType.Text == "Депозитный" && allClients[id].accounts.Where(account => account.isDeposit).Any())
+                    {
+                        MessageBox.Show("У клиента уже есть депозитный счет");
+                    }
+
+                    else if (ComboBoxAccountType.Text == "Не депозитный" && allClients[id].accounts.Where(account => account.isDeposit == false).Any())
+
+                    {
+                        MessageBox.Show("У клиента уже есть не депозитный счет");
+                    }
+                    else
+                    {
+                        allClients[id].accounts.Add(new Client.Account()
+                        {
+                            isDeposit = ComboBoxAccountType.Text == "Депозитный" ? true : false,
+                            accountNumber = Client.GenerateAccountNumber(),
+                            balance = 0
+                        });
+                        SaveToJson(allClients);
+                        Refresh();
+                    }
+                }
+            }
+            ComboBoxAccountType.Text = null;
+        }
+        /// <summary>
+        /// Выполняет перевод денежных средств
+        /// </summary>
+        private void TransferButtonGoClick(object sender, RoutedEventArgs e)
+        {
+            TransferStackPanel.Visibility = Visibility.Hidden;
+        }
     }
 }

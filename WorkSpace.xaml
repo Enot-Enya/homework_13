@@ -79,7 +79,7 @@
         <ListView x:Name="LVclientBase" Grid.Column="2" Grid.Row="1" Margin="15" FontFamily="Segoe Print" MouseDoubleClick="OpenVision" GridViewColumnHeader.Click="GridViewColumnHeaderClick">
             <ListView.View >
                 <GridView x:Name="LVclientBaseee" AllowsColumnReorder="False">
-                    <GridViewColumn Header="Фамилия" DisplayMemberBinding="{Binding surname}"  HeaderContainerStyle="{StaticResource HeaderStyle}"/>
+                    <GridViewColumn x:Name="surnameColumn" Header="Фамилия" DisplayMemberBinding="{Binding surname}"  HeaderContainerStyle="{StaticResource HeaderStyle}"/>
                     <GridViewColumn Header="Имя" DisplayMemberBinding="{Binding name}" HeaderContainerStyle="{StaticResource HeaderStyle}"/>
                     <GridViewColumn Header="Отчество" DisplayMemberBinding="{Binding patronymic}" HeaderContainerStyle="{StaticResource HeaderStyle}"/>
                     <GridViewColumn Header="Паспортные данные" DisplayMemberBinding="{Binding passportNumber}" HeaderContainerStyle="{StaticResource HeaderStyle}"/>
@@ -88,22 +88,23 @@
             </ListView.View>
         </ListView>
         <StackPanel Grid.Column="4" Grid.Row="1">
-            <DataGrid AutoGenerateColumns="False"  ItemsSource="{Binding ElementName=LVclientBase, Path=SelectedItem.accounts}" IsTextSearchEnabled="True" CanUserAddRows="False">
+            <DataGrid x:Name="AccountColums" AutoGenerateColumns="False"  ItemsSource="{Binding ElementName=LVclientBase, Path=SelectedItem.accounts}" IsTextSearchEnabled="True" CanUserAddRows="False">
                 <DataGrid.Columns>
+                    <DataGridTextColumn Header="ID" Binding="{Binding Path=SelectedIndex}"/>
                     <materialDesign:DataGridTextColumn IsReadOnly="True" Header="Тип счета" Binding="{Binding Path=isDeposit, Converter={StaticResource BoolConverter}}"/>
                     <materialDesign:DataGridTextColumn IsReadOnly="True" Header="Номер счета" Binding="{Binding Path=accountNumber}"/>
                     <materialDesign:DataGridTextColumn IsReadOnly="True" Header="Баланс" Binding="{Binding Path=balance, StringFormat={}{0} руб.}"/>
                     <DataGridTemplateColumn>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Content="Перевод" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <Button x:Name="TransferAccountButton" Content="Перевод" HorizontalAlignment="Center" VerticalAlignment="Center" Click="TransferAccountButtonClick"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <DataGridTemplateColumn>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Content="Удалить" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <Button x:Name="DeleteAccountButton" Content="Удалить" HorizontalAlignment="Center" VerticalAlignment="Center" Click="DeleteAccountButtonClick"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -111,13 +112,52 @@
             </DataGrid>
             <Expander Header="Добавить счёт" HorizontalContentAlignment="Stretch" HorizontalAlignment="Left" Margin="0,20,0,0" Width="250">
                 <StackPanel>
-                    <ComboBox Padding="25,10,30,10" materialDesign:HintAssist.Hint="Тип счета">
+                    <ComboBox x:Name="ComboBoxAccountType" Padding="25,10,30,10" materialDesign:HintAssist.Hint="Тип счета">
                         <ComboBoxItem Content="Депозитный"/>
                         <ComboBoxItem Content="Не депозитный"/>
                     </ComboBox>
-                    <Button Content="Добавить" Margin="0,20,0,0"/>
+                    <Button x:Name="AddAccountButton" Content="Добавить" Margin="0,20,0,0" Click="AddButtonClick"/>
                 </StackPanel>
             </Expander>
+            <StackPanel x:Name="TransferStackPanel" Visibility="Hidden">
+                <ComboBox x:Name="TransferNameCombobox" materialDesign:HintAssist.Hint="Кому отправить">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="{}{0} {1} {2}">
+                                        <Binding Path="surname"/>
+                                        <Binding Path="name"/>
+                                        <Binding Path="patronymic"/>
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+                <ComboBox x:Name="TranserAccountType" materialDesign:HintAssist.Hint="Тип счета" ItemsSource="{Binding ElementName=TransferNameCombobox, Path=SelectedItem.accounts}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="{}{0} {1}">
+                                        <Binding Path="isDeposit">
+                                            <Binding.Converter>
+                                                <local:BoolConverter/>
+                                            </Binding.Converter>
+                                        </Binding>
+                                        <Binding Path="accountNumber"/>
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+                <TextBox  materialDesign:HintAssist.Hint="Сумма"/>
+                <Button Content="Отправить" Click="TransferButtonGoClick"/>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Window>

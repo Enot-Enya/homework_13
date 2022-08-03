@@ -12,7 +12,7 @@ namespace homework_12
     /// <summary>
     /// Содержит структуры информации о клиентах, а так же методы для работы с ними
     /// </summary>
-    class Client
+    public class Client
     {
         /// <summary>
         /// Фамилия
@@ -179,11 +179,16 @@ namespace homework_12
                 {
 
                     isDeposit = (i == 1 ? false : true),
-                    accountNumber = "408 178 " + random.Next(000000, 999999).ToString("000 000 ") + random.Next(000000, 999999).ToString("000 000"),
+                    accountNumber = GenerateAccountNumber(),
                     balance = Convert.ToDouble((random.Next(0, 5) == 2 ? random.Next(00000, 99999) : random.Next(0000, 9999)) + (random.NextDouble().ToString("0.00")))
                 }); ;
             }
             return accountList;
+        }
+
+        static public string GenerateAccountNumber()
+        {
+            return "408 178 " + random.Next(000000, 999999).ToString("000 000 ") + random.Next(000000, 999999).ToString("000 000");
         }
 
         #region Методы сортировок

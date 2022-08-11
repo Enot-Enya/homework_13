@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -22,16 +23,20 @@ namespace homework_12
     /// </summary>
     public partial class WorkSpace : Window
     {
+        public static event Action<string> OpenAccountEvent;
+        public static event Action<string> DeleteAccountEvent;
+        public static event Action<string> TransferAccountEvent;
+        public static event Action<string> DeleteClient;
+        public static event Action<string> AddClient;
+        public static event Action<string> BaseCreateEvent;
+        public static event Action<string> BaseDeleteEvent;
+
         public WorkSpace(string user)
         {
-
             InitializeComponent();
+            Homework14.Initialize();
             WindowState = WindowState.Maximized;
             Title = user;
-            // Я из формы авторизации передаю сюда кто работает в переменную юзер. 
-            // У меня возникла проблемма, ее нужно было использовать внутри кнопок я не понимал как ее туда передать
-            // В итоге я решил что нужно просто где то ее сохранить
-            // Title по мне дак оказался самым уместным вариантом
             Refresh();
             if (Title == "Менеджер")
             {
@@ -39,7 +44,6 @@ namespace homework_12
             }
             else ExpanderAddNewClient.Visibility = Visibility.Hidden;
         }
-
 
 
         /// <summary>
@@ -50,6 +54,7 @@ namespace homework_12
             List<Client> temp = Client.Generate(int.Parse(dataBaseCountTextBox.Text));
             SaveToJson(temp);
             Refresh();
+            BaseCreateEvent?.Invoke(Title);
         }
 
         /// <summary>
@@ -59,6 +64,7 @@ namespace homework_12
         {
             File.Delete("Clientlist.json");
             Refresh();
+            BaseDeleteEvent?.Invoke(Title);
         }
         /// <summary>
         /// Метод смены пользователя
@@ -180,6 +186,7 @@ namespace homework_12
             SaveToJson(allClients);
             Refresh();
             CloseVision();
+            DeleteClient?.Invoke(Title);
         }
 
 
@@ -224,6 +231,7 @@ namespace homework_12
                     field.Text = null;
                 }
                 Refresh();
+                AddClient?.Invoke(Title);
             }
         }
         /// <summary>
@@ -279,6 +287,7 @@ namespace homework_12
             allClients[id].accounts.Remove(allClients[id].accounts[accountId]);
             SaveToJson(allClients);
             Refresh();
+            DeleteAccountEvent?.Invoke(Title);
         }
         /// <summary>
         /// Открывает панель перевода Денежных средств
@@ -329,6 +338,7 @@ namespace homework_12
                         });
                         SaveToJson(allClients);
                         Refresh();
+                        OpenAccountEvent?.Invoke(Title);
                     }
                 }
             }
@@ -351,10 +361,9 @@ namespace homework_12
 
             SaveToJson(allClients);
             Refresh();
-
+            TransferAccountEvent?.Invoke(Title);
             TransferStackPanel.Visibility = Visibility.Hidden;
-
-
         }
+
     }
 }

@@ -160,5 +160,7 @@
                 <Button Content="Отправить" Click="TransferButtonGoClick"/>
             </StackPanel>
         </StackPanel>
+        <TextBlock x:Name="TBAlert"  Grid.Column="4" Grid.Row="1" FontSize="24" 
+                   Background="#FFF9FB00" Padding="50" VerticalAlignment="Bottom" Visibility="Hidden"/>
     </Grid>
 </Window>

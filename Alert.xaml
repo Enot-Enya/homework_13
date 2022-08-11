@@ -8,7 +8,7 @@
         WindowStartupLocation="Manual"
         Title="Alert" Height="200" Width="700">
     <Grid>
-        <TextBlock x:Name="TBAlert"  Grid.Column="4" Grid.Row="1" FontSize="24" 
+        <TextBlock x:Name="TBAlert" FontSize="24" 
                    Background="#FFF9FB00" Padding="50"/>
     </Grid>
 </Window>

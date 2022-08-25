@@ -365,7 +365,6 @@ namespace homework_12
             catch (SomeException ex)
             {
                 MessageBox.Show($"{ex.Message}");
-                return;
             }
 
         }

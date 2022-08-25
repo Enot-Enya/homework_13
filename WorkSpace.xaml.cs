@@ -352,26 +352,22 @@ namespace homework_12
             try
             {
                 if (allClients[idOut].accounts[TranferTypeAccountOut].balance - summ < 0) throw new SomeException();
+                allClients[idOut].accounts[TranferTypeAccountOut].balance -= summ;
+                int idIn = TransferNameCombobox.SelectedIndex;
+                int TranferTypeAccountIn = TranserAccountType.SelectedIndex;
+                allClients[idIn].accounts[TranferTypeAccountIn].balance += summ;
+
+                SaveToJson(allClients);
+                Refresh();
+                TransferAccountEvent?.Invoke(Title);
+                TransferStackPanel.Visibility = Visibility.Hidden;
             }
             catch (SomeException ex)
             {
                 MessageBox.Show($"{ex.Message}");
                 return;
             }
-            catch
-            {
-                MessageBox.Show("Ошибка");
-            }
 
-            allClients[idOut].accounts[TranferTypeAccountOut].balance -= summ;
-            int idIn = TransferNameCombobox.SelectedIndex;
-            int TranferTypeAccountIn = TranserAccountType.SelectedIndex;
-            allClients[idIn].accounts[TranferTypeAccountIn].balance += summ;
-
-            SaveToJson(allClients);
-            Refresh();
-            TransferAccountEvent?.Invoke(Title);
-            TransferStackPanel.Visibility = Visibility.Hidden;
         }
 
     }

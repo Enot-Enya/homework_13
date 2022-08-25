@@ -202,6 +202,7 @@
     </Compile>
     <Compile Include="Client.cs" />
     <Compile Include="Homework14.cs" />
+    <Compile Include="SomeException.cs" />
     <Compile Include="WorkSpace.xaml.cs">
       <DependentUpon>WorkSpace.xaml</DependentUpon>
     </Compile>

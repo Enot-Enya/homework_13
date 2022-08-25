@@ -353,8 +353,22 @@ namespace homework_12
             double summ = double.Parse(TBSumm.Text);
             int idOut = int.Parse(TextBoxId.Text);
             int TranferTypeAccountOut = AccountColums.SelectedIndex;
-            allClients[idOut].accounts[TranferTypeAccountOut].balance -= summ;
 
+            try
+            {
+                if (allClients[idOut].accounts[TranferTypeAccountOut].balance - summ < 0) throw new SomeException();
+            }
+            catch (SomeException ex)
+            {
+                MessageBox.Show($"{ex.Message}");
+                return;
+            }
+            catch
+            {
+                MessageBox.Show("Ошибка");
+            }
+
+            allClients[idOut].accounts[TranferTypeAccountOut].balance -= summ;
             int idIn = TransferNameCombobox.SelectedIndex;
             int TranferTypeAccountIn = TranserAccountType.SelectedIndex;
             allClients[idIn].accounts[TranferTypeAccountIn].balance += summ;

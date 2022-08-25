@@ -79,17 +79,6 @@ namespace homework_12
         /// </summary>
         /// <param name="line">Текст уведомления</param>
         /// <returns></returns>
-
-
-        /*
-       public static async Task DoAlert(string line)
-        {
-            WorkSpace.TBAlert.Visibility = Visibility.Visible;
-            WorkSpace.TBAlert.Text = line;
-            await Task.Delay(2000);
-            WorkSpace.TBAlert.Visibility = Visibility.Hidden;
-        }
-        */
         public static async Task DoAlert(string line)
         {
             Alert doAlert = new Alert();

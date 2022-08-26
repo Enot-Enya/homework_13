@@ -4,8 +4,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "homework_13", "homework_13.csproj", "{ED732CAE-E66E-4B53-A2C4-AD89423E013A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6BFF2C14-A816-4CAE-9286-E823134C6276} = {6BFF2C14-A816-4CAE-9286-E823134C6276}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "homework_15", "..\homework_15\homework_15.csproj", "{6BFF2C14-A816-4CAE-9286-E823134C6276}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "homework_15", "homework_15\homework_15.csproj", "{6BFF2C14-A816-4CAE-9286-E823134C6276}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

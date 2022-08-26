@@ -271,7 +271,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\homework_15\homework_15.csproj">
+    <ProjectReference Include="homework_15\homework_15.csproj">
       <Project>{6bff2c14-a816-4cae-9286-e823134c6276}</Project>
       <Name>homework_15</Name>
     </ProjectReference>

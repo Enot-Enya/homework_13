@@ -348,6 +348,7 @@ namespace homework_12
             try
             {
                 double summ = double.Parse(TBSumm.Text);
+                if (summ < 0) throw new Exception();
                 List<Client> allClients = Client.JsonToList("Менеджер");
                 int idOut = int.Parse(TextBoxId.Text);
                 int TranferTypeAccountOut = AccountColums.SelectedIndex;
@@ -359,7 +360,6 @@ namespace homework_12
                     int idIn = TransferNameCombobox.SelectedIndex;
                     int TranferTypeAccountIn = TranserAccountType.SelectedIndex;
                     allClients[idIn].accounts[TranferTypeAccountIn].balance += summ;
-
                     SaveToJson(allClients);
                     Refresh();
                     TransferAccountEvent?.Invoke(Title);
@@ -373,6 +373,10 @@ namespace homework_12
             catch (FormatException) 
             {
                 MessageBox.Show("Не верный формат");
+            }
+            catch
+            {
+                MessageBox.Show("Ошибка");
             }
             
            

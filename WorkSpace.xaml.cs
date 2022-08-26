@@ -344,28 +344,38 @@ namespace homework_12
         /// </summary>
         private void TransferButtonGoClick(object sender, RoutedEventArgs e)
         {
-            List<Client> allClients = Client.JsonToList("Менеджер");
-            double summ = double.Parse(TBSumm.Text);
-            int idOut = int.Parse(TextBoxId.Text);
-            int TranferTypeAccountOut = AccountColums.SelectedIndex;
-
+       
             try
             {
-                if (allClients[idOut].accounts[TranferTypeAccountOut].balance - summ < 0) throw new SomeException();
-                allClients[idOut].accounts[TranferTypeAccountOut].balance -= summ;
-                int idIn = TransferNameCombobox.SelectedIndex;
-                int TranferTypeAccountIn = TranserAccountType.SelectedIndex;
-                allClients[idIn].accounts[TranferTypeAccountIn].balance += summ;
+                double summ = double.Parse(TBSumm.Text);
+                List<Client> allClients = Client.JsonToList("Менеджер");
+                int idOut = int.Parse(TextBoxId.Text);
+                int TranferTypeAccountOut = AccountColums.SelectedIndex;
 
-                SaveToJson(allClients);
-                Refresh();
-                TransferAccountEvent?.Invoke(Title);
-                TransferStackPanel.Visibility = Visibility.Hidden;
+                try
+                {
+                    if (allClients[idOut].accounts[TranferTypeAccountOut].balance - summ < 0) throw new SomeException();
+                    allClients[idOut].accounts[TranferTypeAccountOut].balance -= summ;
+                    int idIn = TransferNameCombobox.SelectedIndex;
+                    int TranferTypeAccountIn = TranserAccountType.SelectedIndex;
+                    allClients[idIn].accounts[TranferTypeAccountIn].balance += summ;
+
+                    SaveToJson(allClients);
+                    Refresh();
+                    TransferAccountEvent?.Invoke(Title);
+                    TransferStackPanel.Visibility = Visibility.Hidden;
+                }
+                catch (SomeException ex)
+                {
+                    MessageBox.Show($"{ex.Message}");
+                }
             }
-            catch (SomeException ex)
+            catch (FormatException) 
             {
-                MessageBox.Show($"{ex.Message}");
+                MessageBox.Show("Не верный формат");
             }
+            
+           
 
         }
 
